@@ -4,11 +4,14 @@ import TodoForm from "./components/todoform";
 import host from "./host";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.addTodo = this.addTodo.bind(this);
+  }
   state = {
     todos: [],
     text: "",
   };
-
   async componentDidMount() {
     const response = await fetch(`${host}/api/todos`);
     const data = await response.json();
@@ -23,16 +26,31 @@ class App extends Component {
     });
   };
 
-  addTodo = (e) => {
+  async addTodo(e) {
     e.preventDefault();
-    this.setState((state) => ({
-      todos: state.todos.concat({
-        text: state.text,
-        isCompleted: false,
-      }),
-      text: "",
-    }));
-  };
+    const body = {
+      Text: this.state.text,
+      isCompleted: Number(false),
+    };
+
+    const response = await fetch(`${host}/api/todos/create`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (response.status === 200) {
+      const todo = await response.json();
+      console.log(todo);
+
+      this.setState((state) => ({
+        todos: [todo, ...this.state.todos],
+        text: "",
+      }));
+    }
+  }
 
   complete = (index) => {
     const todos = [...this.state.todos];

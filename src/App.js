@@ -9,6 +9,24 @@ class App extends Component {
       { text: "Complete Todo MVC", isCompleted: true },
       { text: "Play chess", isCompleted: false },
     ],
+    text: "",
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  addTodo = (e) => {
+    e.preventDefault();
+    this.setState((state) => ({
+      todos: state.todos.concat({
+        text: state.text,
+        isCompleted: false,
+      }),
+      text: "",
+    }));
   };
 
   complete = (index) => {
@@ -25,7 +43,11 @@ class App extends Component {
         <header>
           <h1 className="text-center">Todo MVC</h1>
         </header>
-        <TodoForm />
+        <TodoForm
+          addTodo={this.addTodo}
+          handleChange={this.handleChange}
+          value={this.state.text}
+        />
         <TodoList todos={this.state.todos} complete={this.complete} />
       </div>
     );

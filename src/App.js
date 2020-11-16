@@ -30,8 +30,21 @@ class App extends Component {
     });
   };
 
-  delete(ind) {
-    console.log(ind);
+  async delete(ind) {
+    const todos = [...this.state.todos];
+
+    const response = await fetch(`${host}/api/todos/${ind}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      this.setState({
+        todos: todos.filter((todo) => todo.TodoId !== ind),
+      });
+    }
   }
 
   async addTodo(e) {

@@ -21,7 +21,7 @@ class TodoList extends Component {
                     textDecoration: todo.isCompleted ? "line-through" : "none",
                   }}
                 >
-                  {todo.text}
+                  {todo.Text}
                 </label>
               </div>
             </div>

@@ -1,16 +1,21 @@
 import { Component } from "react";
 import TodoList from "./components/todolist";
 import TodoForm from "./components/todoform";
+import host from "./host";
 
 class App extends Component {
   state = {
-    todos: [
-      { text: "Watch YT", isCompleted: false },
-      { text: "Complete Todo MVC", isCompleted: true },
-      { text: "Play chess", isCompleted: false },
-    ],
+    todos: [],
     text: "",
   };
+
+  async componentDidMount() {
+    const response = await fetch(`${host}/api/todos`);
+    const data = await response.json();
+    this.setState({
+      todos: data,
+    });
+  }
 
   handleChange = (e) => {
     this.setState({

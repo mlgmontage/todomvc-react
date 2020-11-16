@@ -8,11 +8,14 @@ class App extends Component {
     super(props);
     this.addTodo = this.addTodo.bind(this);
     this.delete = this.delete.bind(this);
+    this.complete = this.complete.bind(this);
   }
+
   state = {
     todos: [],
     text: "",
   };
+
   async componentDidMount() {
     const response = await fetch(`${host}/api/todos`);
     const data = await response.json();
@@ -57,14 +60,30 @@ class App extends Component {
     }
   }
 
-  complete = (index) => {
+  async complete(index) {
     const todos = [...this.state.todos];
     const todoIndex = todos.findIndex((todo) => todo.TodoId === index);
     todos[todoIndex].isCompleted = !todos[todoIndex].isCompleted;
-    this.setState({
-      todos,
-    });
-  };
+
+    const response = await fetch(
+      `${host}/api/todos/complete/${todos[todoIndex].TodoId}`,
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isCompleted: Number(todos[todoIndex].isCompleted),
+        }),
+      }
+    );
+
+    if (response.status === 200) {
+      this.setState({
+        todos,
+      });
+    }
+  }
 
   render() {
     return (

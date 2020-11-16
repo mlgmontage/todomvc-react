@@ -7,6 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.addTodo = this.addTodo.bind(this);
+    this.delete = this.delete.bind(this);
   }
   state = {
     todos: [],
@@ -25,6 +26,10 @@ class App extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  delete(ind) {
+    console.log(ind);
+  }
 
   async addTodo(e) {
     e.preventDefault();
@@ -54,7 +59,8 @@ class App extends Component {
 
   complete = (index) => {
     const todos = [...this.state.todos];
-    todos[index].isCompleted = !todos[index].isCompleted;
+    const todoIndex = todos.findIndex((todo) => todo.TodoId === index);
+    todos[todoIndex].isCompleted = !todos[todoIndex].isCompleted;
     this.setState({
       todos,
     });
@@ -71,7 +77,11 @@ class App extends Component {
           handleChange={this.handleChange}
           value={this.state.text}
         />
-        <TodoList todos={this.state.todos} complete={this.complete} />
+        <TodoList
+          delete={this.delete}
+          todos={this.state.todos}
+          complete={this.complete}
+        />
       </div>
     );
   }

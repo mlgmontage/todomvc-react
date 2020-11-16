@@ -8,34 +8,36 @@ class TodoForm extends Component {
   render() {
     return (
       <div>
-        <form
-          onSubmit={(e) => this.props.addTodo(e)}
-          className="col-md-8 m-auto"
-        >
-          <div className="mb-3">
-            <label htmlFor="todoInput" className="form-label">
-              What to do
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="todoInput"
-              name="text"
-              value={this.props.value}
-              onChange={this.props.handleChange}
-            />
-            <div id="emailHelp" className="form-text">
-              Write something you need to do
-            </div>
-          </div>
-          <button
-            type="submit"
-            onClick={(e) => this.props.addTodo(e)}
-            className="btn btn-primary"
+        <div className="row">
+          <form
+            onSubmit={(e) => this.props.addTodo(e)}
+            className="col-md-8 m-auto my-3"
           >
-            +Add
-          </button>
-        </form>
+            <div className="mb-3">
+              <label htmlFor="todoInput" className="form-label">
+                What to do?
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="todoInput"
+                name="text"
+                value={this.props.value}
+                onChange={this.props.handleChange}
+              />
+              <small className="form-text text-muted">
+                Write something you need to do
+              </small>
+            </div>
+            <button
+              type="submit"
+              onClick={(e) => this.props.addTodo(e)}
+              className="btn btn-primary"
+            >
+              +Add
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
